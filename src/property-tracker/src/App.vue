@@ -1,6 +1,8 @@
 <template>
 	<div id="app">
-		<component :is="layout"> <router-view /> </component>
+		<component :is="layout">
+			<router-view />
+		</component>
 	</div>
 </template>
 
@@ -17,6 +19,11 @@ export default {
 			console.log(this.$route.meta);
 			return this.$route.meta.layout || "empty-layout";
 		}
+	},
+	mounted() {
+		window.I18N = this.$root.$i18n;
+		console.log("i18n", this.$root.$i18n, this.$root.$i18n.locale);
+		//document.title = this.$root.$i18n.t("appTitle");
 	}
 };
 </script>

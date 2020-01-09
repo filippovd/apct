@@ -12,10 +12,40 @@ const routes = [
 		component: Home
 	},
 	{
+		path: "/registry",
+		name: "registry",
+		meta: { layout: "base-layout" },
+		component: () => import("../views/Registry.vue")
+	},
+	{
+		path: "/tracking",
+		name: "tracking",
+		meta: { layout: "base-layout" },
+		component: () => import("../views/Tracking.vue")
+	},
+	{
 		path: "/login",
 		name: "login",
 		meta: { layout: "empty-layout" },
-		component: Home
+		component: () => import("../views/Login.vue")
+	},
+	{
+		path: "/signup",
+		name: "signup",
+		meta: { layout: "empty-layout" },
+		component: () => import("../views/Signup.vue")
+	},
+	{
+		path: "/logout",
+		name: "logout",
+		meta: { layout: "empty-layout" },
+		component: () => import("../views/Logout.vue")
+	},
+	{
+		path: "/profile",
+		name: "profile",
+		meta: { layout: "base-layout" },
+		component: () => import("../views/Profile.vue")
 	},
 	{
 		path: "/about",

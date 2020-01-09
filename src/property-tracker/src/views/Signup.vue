@@ -1,7 +1,7 @@
 <template>
 	<form class="card auth-card" @submit.prevent="submitForm">
 		<div class="card-content">
-			<span class="card-title">{{ $t("pages.login.title") }}</span>
+			<span class="card-title">{{ $t("pages.signup.title") }}</span>
 			<div class="input-field">
 				<input
 					id="email"
@@ -12,20 +12,20 @@
 							($v.email.$dirty && !$v.email.required) ||
 							($v.email.$dirty && !$v.email.email)
 					}"
-					:placeholder2="$t('pages.login.fields.email.placeholder')"
+					:placeholder2="$t('pages.signup.fields.email.placeholder')"
 				/>
 				<label for="email">{{
-					$t("pages.login.fields.email.label")
+					$t("pages.signup.fields.email.label")
 				}}</label>
 				<small
 					class="helper-text invalid"
 					v-if="$v.email.$dirty && !$v.email.required"
-					>{{ $t("pages.login.fields.email.required") }}</small
+					>{{ $t("pages.signup.fields.email.required") }}</small
 				>
 				<small
 					class="helper-text invalid"
 					v-else-if="$v.email.$dirty && !$v.email.email"
-					>{{ $t("pages.login.fields.email.invalid") }}</small
+					>{{ $t("pages.signup.fields.email.invalid") }}</small
 				>
 			</div>
 			<div class="input-field">
@@ -39,23 +39,47 @@
 							($v.password.$dirty && !$v.password.minLength)
 					}"
 					:placeholder2="
-						$t('pages.login.fields.password.placeholder')
+						$t('pages.signup.fields.password.placeholder')
 					"
 				/>
 				<label for="password">{{
-					$t("pages.login.fields.password.label")
+					$t("pages.signup.fields.password.label")
 				}}</label>
 				<small
 					class="helper-text invalid"
 					v-if="$v.password.$dirty && !$v.password.required"
-					>{{ $t("pages.login.fields.password.required") }}</small
+					>{{ $t("pages.signup.fields.password.required") }}</small
 				>
 				<small
 					class="helper-text invalid"
 					v-else-if="$v.password.$dirty && !$v.password.minLength"
-					>{{ $t("pages.login.fields.password.minlength") }}</small
+					>{{ $t("pages.signup.fields.password.minlength") }}</small
 				>
 			</div>
+			<div class="input-field">
+				<input
+					id="name"
+					type="text"
+					v-model.trim="name"
+					:class="{
+						invalid: $v.name.$dirty && !$v.name.required
+					}"
+				/>
+				<label for="name">{{
+					$t("pages.signup.fields.name.label")
+				}}</label>
+				<small
+					class="helper-text invalid"
+					v-if="$v.name.$dirty && !$v.name.required"
+					>{{ $t("pages.signup.fields.name.required") }}</small
+				>
+			</div>
+			<p>
+				<label>
+					<input type="checkbox" v-model="agree" />
+					<span>С правилами согласен</span>
+				</label>
+			</p>
 		</div>
 		<div class="card-action">
 			<div>
@@ -63,16 +87,15 @@
 					class="btn waves-effect waves-light auth-submit"
 					type="submit"
 				>
-					{{ $t("pages.login.buttons.login") }}
+					{{ $t("pages.signup.buttons.signup") }}
 					<send-icon />
 				</button>
 			</div>
-
 			<p class="center">
-				{{ $t("pages.login.text.noAccount") }}
-				<router-link to="/signup">{{
-					$t("pages.login.links.signup")
-				}}</router-link>
+				{{ $t("pages.signup.text.hasAccount") }}
+				<router-link to="/login">
+					{{ $t("pages.signup.links.login") }}
+				</router-link>
 			</p>
 		</div>
 	</form>
@@ -81,18 +104,23 @@
 import M from "materialize-css/dist/js/materialize";
 import SendIcon from "vue-material-design-icons/Send.vue";
 import { email, required, minLength } from "vuelidate/lib/validators";
+
 export default {
-	name: "login",
+	name: "signup",
 	components: { SendIcon },
 	data() {
 		return {
 			email: "",
-			password: ""
+			password: "",
+			name: "",
+			agree: false
 		};
 	},
 	validations: {
 		email: { email, required },
-		password: { required, minLength: minLength(6) }
+		password: { required, minLength: minLength(6) },
+		name: { required },
+		agree: { checked: v => v }
 	},
 	methods: {
 		async submitForm() {
@@ -102,23 +130,22 @@ export default {
 			}
 			const formData = {
 				email: this.email,
-				password: this.password
+				password: this.password,
+				name: this.name
 			};
+			console.log("signing up...", formData);
 
 			try {
-				await this.$store.dispatch("login", formData);
-
+				await this.$store.dispatch("signUp", formData);
 				this.$router.push("/");
 			} catch (e) {
 				//
+				console.log(e);
 			}
 		}
 	},
 	mounted() {
-		console.log("login");
 		M.updateTextFields();
-		// this.$v.$touch();
-		//this.$toast("HELLO");
 	}
 };
 </script>

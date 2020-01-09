@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="page-title">
-			<h3>Главная</h3>
+			<h3>Отслеживание</h3>
 
 			<button class="btn waves-effect waves-light btn-small">
 				<refresh-icon :size="64" class="icon-2x" />
@@ -12,7 +12,7 @@
 			<div class="col s12 m6 l4">
 				<div class="card light-blue bill-card">
 					<div class="card-content white-text">
-						<span class="card-title">Объектов собственности</span>
+						<span class="card-title">Счет в валюте</span>
 
 						<p class="currency-line">
 							<span>12.0 Р</span>

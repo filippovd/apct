@@ -1,15 +1,24 @@
 <template>
-	<nav class="navbar orange lighten-1">
+	<nav class="navbar blue darken-4">
 		<div class="nav-wrapper">
 			<router-link to="/" class="brand-logo">
-				<menu-icon />
-				Property Tracker
+				<menu-icon @click="$emit('menu-toggle')" />
+				Реестр собственности
 			</router-link>
+			<span class="yellow-text date-informer">{{
+				currentDate | date("datetime")
+			}}</span>
+			<!-- Switch -->
+			<div class="switch">
+				<label>
+					Off
+					<input type="checkbox" />
+					<span class="lever"></span>
+					On
+				</label>
+			</div>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><router-link to="/">Home</router-link></li>
-				<li>
-					<router-link to="/about">About</router-link>
-				</li>
+				<user-menu />
 			</ul>
 		</div>
 	</nav>
@@ -55,11 +64,48 @@
 </template>
 
 <script>
+import UserMenu from "@/components/UserMenu";
 import MenuIcon from "vue-material-design-icons/Menu.vue";
+//import M from "materialize-css/dist/js/materialize";
 
 export default {
 	components: {
+		UserMenu,
 		MenuIcon
+	},
+	data: () => ({
+		currentDate: new Date(),
+		updateDateInterval: null
+	}),
+	mounted() {
+		// M.Dropdown.init(this.$refs.userMenu, {
+		// 	constrainWidth: true
+		// });
+		const self = this;
+		this.updateDateInterval = setInterval(() => {
+			//console.log("interval", self.currentDate);
+			self.currentDate = new Date();
+		}, 1000);
+	},
+	beforeDestroy() {
+		if (this.updateDateInterval) {
+			clearInterval(this.updateDateInterval);
+			this.updateDateInterval = null;
+		}
 	}
 };
 </script>
+<style scoped>
+.brand-logo {
+	position: relative !important;
+}
+
+.date-informer {
+	padding: 0 1em;
+	font-size: 2rem;
+}
+
+.switch {
+	display: inline;
+}
+</style>

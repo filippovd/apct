@@ -1,53 +1,36 @@
 <template>
 	<div class="app-main-layout">
-		<navbar />
+		<navbar @menu-toggle="menuOpen = !menuOpen" />
 
-		<!-- <ul class="sidenav app-sidenav open">
-			<li>
-				<a href="#" class="waves-effect waves-orange pointer">Счет</a>
-			</li>
-			<li>
-				<a href="#" class="waves-effect waves-orange pointer"
-					>История</a
-				>
-			</li>
-			<li>
-				<a href="#" class="waves-effect waves-orange pointer"
-					>Планирование</a
-				>
-			</li>
-			<li>
-				<a href="#" class="waves-effect waves-orange pointer"
-					>Новая запись</a
-				>
-			</li>
-			<li>
-				<a href="#" class="waves-effect waves-orange pointer"
-					>Категории</a
-				>
-			</li>
-		</ul> -->
+		<sidebar v-model="menuOpen" />
 
-		<main class="app-content">
+		<main class="app-content" :class="{ full: !menuOpen }">
 			<div class="app-page">
 				<router-view />
 			</div>
 		</main>
 
 		<div class="fixed-action-btn">
-			<a class="btn-floating btn-large blue" href="#">
-				<i class="large material-icons">add</i>
-			</a>
+			<router-link to="/" class="btn-floating btn-large blue">
+				<plus />
+			</router-link>
 		</div>
 	</div>
 </template>
 
 <script>
+import Plus from "vue-material-design-icons/PlusThick.vue";
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 export default {
 	components: {
-		Navbar
-	}
+		Plus,
+		Navbar,
+		Sidebar
+	},
+	data: () => ({
+		menuOpen: true
+	})
 };
 </script>

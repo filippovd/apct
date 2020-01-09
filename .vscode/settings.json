@@ -1,0 +1,4 @@
+{
+	"editor.formatOnPaste": true,
+	"vetur.format.defaultFormatter.html": "prettier"
+}

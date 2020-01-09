@@ -36,8 +36,8 @@
 .app-sidenav {
 	padding-top: 5px;
 	position: absolute;
-	top: 64px;
-	width: 250px;
+	top: 64px !important;
+	width: 250px !important;
 	transition: transform .3s;
 	transition: transform .3s, -webkit-transform .3s;
 	bottom: 0 !important;
