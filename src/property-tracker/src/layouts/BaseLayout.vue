@@ -31,6 +31,12 @@ export default {
 	},
 	data: () => ({
 		menuOpen: true
-	})
+	}),
+	async mounted() {
+		if (!this.$store.getters.user) {
+			await this.$store.dispatch('fetchUser');
+		}
+
+	}
 };
 </script>

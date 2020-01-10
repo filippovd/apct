@@ -60,12 +60,17 @@
 		<div class="card-action">
 			<div>
 				<button
+					ref="btn"
 					class="btn waves-effect waves-light auth-submit"
 					type="submit"
+					:disabled="isProcessing"
 				>
 					{{ $t("pages.login.buttons.login") }}
-					<send-icon />
+					<send-icon v-if="!isProcessing" />
 				</button>
+				<div class="progress" v-if="isProcessing">
+					<div class="indeterminate"></div>
+				</div>
 			</div>
 
 			<p class="center">
@@ -87,7 +92,9 @@ export default {
 	data() {
 		return {
 			email: "",
-			password: ""
+			password: "",
+			isProcessing: false,
+			status: ""
 		};
 	},
 	validations: {
@@ -106,19 +113,22 @@ export default {
 			};
 
 			try {
+				this.isProcessing = true;
 				await this.$store.dispatch("login", formData);
+				this.isProcessing = false;
 
 				this.$router.push("/");
 			} catch (e) {
 				//
+				this.isProcessing = false;
 			}
 		}
 	},
+	watch: {},
 	mounted() {
 		console.log("login");
 		M.updateTextFields();
-		// this.$v.$touch();
-		//this.$toast("HELLO");
+
 	}
 };
 </script>

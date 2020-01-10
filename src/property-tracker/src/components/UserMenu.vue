@@ -5,6 +5,7 @@
 			href="#"
 			data-target="userMenuDropDown"
 			ref="userMenu"
+			style="min-width: 200px;"
 		>
 			{{ userName }}
 			<menu-down />
@@ -27,7 +28,7 @@
 				<li
 					class="divider"
 					tabindex="-1"
-					:key="'divider_'+link.url"
+					:key="'divider_' + link.url"
 					v-if="link.divider"
 				></li>
 			</template>
@@ -46,7 +47,7 @@ export default {
 	components: { MenuDown, ExitIcon, AccountCircle },
 	data: function() {
 		return {
-			userName: "Филиппов Д.В.",
+			//userName: "Филиппов Д.В.",
 			links: [
 				{
 					title: "usermenu.links.profile",
@@ -64,6 +65,12 @@ export default {
 			],
 			dropdownMenu: null
 		};
+	},
+	computed: {
+		userName() {
+			const user = this.$store.getters.user;
+			return (user && user.info && user.info.name) ? user.info.name : "Noname";
+		}
 	},
 	methods: {
 		logout() {

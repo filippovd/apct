@@ -41,11 +41,13 @@ export default {
 		},
 		async getUid() {
 			const user = firebase.auth().currentUser;
+			console.log("fbUser", user);
 			return user ? user.uid : null;
 		},
-		async logout({ dispatch, commit }) {
+		async logout({ commit }) {
 			try {
 				await firebase.auth().signOut();
+				commit("clearUser");
 			} catch (e) {
 				commit("setError", normalizeCode(e.code));
 				throw e;
